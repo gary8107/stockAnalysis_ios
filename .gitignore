@@ -13,6 +13,36 @@ xcuserdata/
 *.dSYM.zip
 *.dSYM
 
+## Build generated
+build/
+DerivedData/
+Derived/
+*.xcodeproj/
+*.xcworkspace/
+*.lock
+
+## Various settings
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata/
+
+## Other
+*.moved-aside
+*.xccheckout
+*.xcscmblueprint
+
+## Obj-C/Swift specific
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
 ## Playgrounds
 timeline.xctimeline
 playground.xcworkspace
@@ -60,3 +90,14 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
+
+# Code Injection
+#
+# After new code Injection tools there's a generated folder /iOSInjectionProject
+# https://github.com/johnno1962/injectionforxcode
+
+iOSInjectionProject/
+
+.env
+.DS_Store
+Pods
