@@ -62,6 +62,8 @@ target 'stockAnalysis_ios' do
   # Autolayout
   pod 'SnapKit', '5.6.0'
 
+  # tabBar
+  pod 'CYLTabBarController', '1.29.2'
 end
 
 post_install do |installer|
