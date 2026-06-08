@@ -69,6 +69,16 @@ enum StockAnalysisService {
             let key: String?
             let name: String?
             let description: String?
+            
+            var banner: String {
+                switch self.key {
+                case "li-shufang": return "lsf_banner"
+                case "ruan-huici": return "rhc_banner"
+                case "chen-kunjen": return "ckj_banner"
+                case "cai-zhenghua": return "tzh_banner"
+                default: return ""
+                }
+            }
         }
 
         struct Comparison: Decodable {

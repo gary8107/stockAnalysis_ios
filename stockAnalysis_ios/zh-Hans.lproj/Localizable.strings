@@ -6,12 +6,12 @@
 */
 
 // MARK: - Tab Bar
-"tab.comparison" = "比较";
+"tab.comparison" = "对照";
 "tab.analyst" = "分析师";
 "tab.setting" = "设置";
 
 // MARK: - Comparison Page
-"comparison.title" = "比较";
+"comparison.title" = "分析师资料对照";
 "comparison.empty" = "尚无比较数据。";
 "comparison.summary" = "共 %d 条比较数据";
 

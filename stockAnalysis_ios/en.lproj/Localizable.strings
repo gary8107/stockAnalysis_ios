@@ -12,7 +12,7 @@
 "tab.setting" = "Settings";
 
 // MARK: - Comparison Page
-"comparison.title" = "Comparison";
+"comparison.title" = "Analyst Comparison";
 "comparison.empty" = "No comparison data yet.";
 "comparison.summary" = "%d comparison entries";
 

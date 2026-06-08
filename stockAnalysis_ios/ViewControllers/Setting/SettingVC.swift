@@ -45,6 +45,13 @@ final class SettingVC: UIViewController {
         applyLocalizedTexts()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        // 設外層 NavigationBar（屬於 TabBarController）的標題；不用 self.title 以免污染底部 Tab 文字。
+        tabBarController?.navigationItem.title = L10n.Setting.title
+    }
+
     private func setupTableView() {
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -59,7 +66,6 @@ final class SettingVC: UIViewController {
     /// 套用（或重新套用）目前語系的本地化文字。
     /// 抽成獨立方法，讓「進入畫面」與「語系切換後刷新」共用同一段邏輯。
     private func applyLocalizedTexts() {
-        title = L10n.Setting.title
         tableView.reloadData()
     }
 

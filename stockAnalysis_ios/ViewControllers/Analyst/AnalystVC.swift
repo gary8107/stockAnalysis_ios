@@ -37,6 +37,13 @@ class AnalystVC: UIViewController {
         applyLocalizedTexts()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        // 設外層 NavigationBar（屬於 TabBarController）的標題；不用 self.title 以免污染底部 Tab 文字。
+        tabBarController?.navigationItem.title = L10n.Analyst.title
+    }
+
     private func setupSummaryLabel() {
         view.addSubview(summaryLabel)
         summaryLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -51,8 +58,6 @@ class AnalystVC: UIViewController {
     /// 套用目前語系的本地化文字。
     /// 抽成獨立方法，讓「進入畫面」與未來「語系切換後刷新」能共用同一段邏輯。
     private func applyLocalizedTexts() {
-        title = L10n.Analyst.title
-
         // 有分析師資料就顯示帶人數的摘要，否則顯示空狀態文案。
         let analysts = info?.analysts ?? []
         summaryLabel.text = analysts.isEmpty
