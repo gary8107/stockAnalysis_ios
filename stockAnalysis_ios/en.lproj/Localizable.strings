@@ -1,0 +1,27 @@
+/*
+  Localizable.strings (English)
+  stockAnalysis_ios
+
+  Base / fallback language. Keys use a "section.item" naming convention so that
+  related strings group together and the key itself hints at where it is used.
+*/
+
+// MARK: - Tab Bar
+"tab.comparison" = "Comparison";
+"tab.analyst" = "Analyst";
+"tab.setting" = "Settings";
+
+// MARK: - Comparison Page
+"comparison.title" = "Comparison";
+"comparison.empty" = "No comparison data yet.";
+"comparison.summary" = "%d comparison entries";
+
+// MARK: - Analyst Page
+"analyst.title" = "Analyst";
+"analyst.empty" = "No analyst data yet.";
+"analyst.summary" = "%d analysts";
+
+// MARK: - Setting Page
+"setting.title" = "Settings";
+"setting.section.language" = "Language";
+"setting.section.language.footer" = "Changes apply immediately without restarting the app.";

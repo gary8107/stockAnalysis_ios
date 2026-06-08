@@ -13,9 +13,13 @@ import CYLTabBarController
 final class MainNavigationController: UINavigationController {
 
     /// 用「載入完成的資料」建立首頁。
-    /// - Parameter info: LoadingVC 取得的 API 資料，會往下注入給各個 Tab 使用。
-    class func instantiate(info: StockAnalysisInfo? = nil) -> UINavigationController {
-        let tabBarController = MainViewController.instantiate(info: info)
+    /// - Parameters:
+    ///   - info: LoadingVC 取得的 API 資料，會往下注入給各個 Tab 使用。
+    ///   - selectedTab: 建立後要預設停留的 Tab；預設 `nil` 表示維持第一個。
+    ///     語系切換後重建首頁時，用它讓畫面停在使用者原本所在的 Tab（設定頁）。
+    class func instantiate(info: StockAnalysisInfo? = nil,
+                           selectedTab: TabBarType? = nil) -> UINavigationController {
+        let tabBarController = MainViewController.instantiate(info: info, selectedTab: selectedTab)
         let navigationController = UINavigationController(rootViewController: tabBarController)
         return navigationController
     }
@@ -30,7 +34,9 @@ final class MainNavigationController: UINavigationController {
 final class MainViewController: CYLTabBarController {
 
     /// 依 `TabBarManager` 定義的順序建立各 Tab，並把 `info` 注入給需要資料的 Tab。
-    class func instantiate(info: StockAnalysisInfo? = nil) -> MainViewController {
+    /// - Parameter selectedTab: 建立後預設停留的 Tab；`nil` 表示維持第一個。
+    class func instantiate(info: StockAnalysisInfo? = nil,
+                           selectedTab: TabBarType? = nil) -> MainViewController {
         let items = TabBarManager.items()
         // viewControllers 與 tabBarItemsAttributes 的順序必須一致，所以兩者都從同一份 items 衍生。
         let viewControllers = items.map { $0.makeViewController(info: info) }
@@ -42,6 +48,11 @@ final class MainViewController: CYLTabBarController {
         tabBarController.tabBar.barTintColor = .orange
         tabBarController.tabBar.tintColor = .red
         tabBarController.tabBar.unselectedItemTintColor = .darkGray
+
+        // 重建首頁後讓畫面停在指定 Tab（例如語系切換是在設定頁觸發的，重建後要停回設定頁）。
+        if let selectedTab, let index = items.firstIndex(of: selectedTab) {
+            tabBarController.selectedIndex = index
+        }
         return tabBarController
     }
 
@@ -76,27 +87,28 @@ enum TabBarType {
     case analyst
     case setting
 
+    /// TabBar 顯示的標題，依目前語系即時取得本地化字串。
     var title: String {
         switch self {
-        case .comparison: return "Comparison"
-        case .analyst: return "Analyst"
-        case .setting: return "Setting"
+        case .comparison: return L10n.Tab.comparison
+        case .analyst: return L10n.Tab.analyst
+        case .setting: return L10n.Tab.setting
         }
     }
 
     var iconNormal: UIImage {
         switch self {
-        case .comparison: return UIImage.lobbyTabHomeNormal
-        case .analyst: return UIImage.lobbyTabAboutNormal
-        case .setting: return UIImage.lobbyTabGuideNormal
+        case .comparison: return UIImage(systemName: "arrow.left.arrow.right") ?? UIImage()
+        case .analyst: return UIImage(systemName: "inset.filled.rectangle.and.person.filled") ?? UIImage()
+        case .setting: return UIImage(systemName: "gearshape") ?? UIImage()
         }
     }
 
     var iconSelected: UIImage {
         switch self {
-        case .comparison: return UIImage.lobbyTabHomeSel
-        case .analyst: return UIImage.lobbyTabAboutSel
-        case .setting: return UIImage.lobbyTabGuideSel
+        case .comparison: return UIImage(systemName: "arrow.left.arrow.right") ?? UIImage()
+        case .analyst: return UIImage(systemName: "inset.filled.rectangle.and.person.filled") ?? UIImage()
+        case .setting: return UIImage(systemName: "gearshape") ?? UIImage()
         }
     }
 
@@ -105,7 +117,7 @@ enum TabBarType {
         switch self {
         case .comparison: return ComparisonVC.instantiate(info: info)
         case .analyst: return AnalystVC.instantiate(info: info)
-        case .setting: return SettingVC.instantiate()
+        case .setting: return SettingVC.instantiate(info: info)
         }
     }
 }

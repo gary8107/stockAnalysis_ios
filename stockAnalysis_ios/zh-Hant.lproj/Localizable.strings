@@ -1,0 +1,26 @@
+/*
+  Localizable.strings (繁體中文)
+  stockAnalysis_ios
+
+  與 en.lproj/Localizable.strings 的 key 一一對應；只翻譯等號右側的值。
+*/
+
+// MARK: - Tab Bar
+"tab.comparison" = "比較";
+"tab.analyst" = "分析師";
+"tab.setting" = "設定";
+
+// MARK: - Comparison Page
+"comparison.title" = "比較";
+"comparison.empty" = "尚無比較資料。";
+"comparison.summary" = "共 %d 筆比較資料";
+
+// MARK: - Analyst Page
+"analyst.title" = "分析師";
+"analyst.empty" = "尚無分析師資料。";
+"analyst.summary" = "共 %d 位分析師";
+
+// MARK: - Setting Page
+"setting.title" = "設定";
+"setting.section.language" = "語言";
+"setting.section.language.footer" = "切換後立即生效，不需重新啟動 App。";
