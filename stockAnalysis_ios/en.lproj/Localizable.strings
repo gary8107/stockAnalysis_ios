@@ -6,6 +6,9 @@
   related strings group together and the key itself hints at where it is used.
 */
 
+// MARK: - Common
+"common.cancel" = "Cancel";
+
 // MARK: - Tab Bar
 "tab.comparison" = "Comparison";
 "tab.analyst" = "Analyst";

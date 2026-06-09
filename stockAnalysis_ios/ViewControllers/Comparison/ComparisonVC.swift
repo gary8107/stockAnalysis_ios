@@ -65,6 +65,15 @@ class ComparisonVC: UIViewController {
         return control
     }()
 
+    /// Banner 下方的「月份下拉 + 日期膠囊」選擇器（可重用元件，見 Components/MonthDatePicker）。
+    private lazy var monthDatePicker: MonthDatePickerView = {
+        let picker = MonthDatePickerView()
+        picker.onSelectDate = { [weak self] date in
+            self?.didSelectDate(date)
+        }
+        return picker
+    }()
+
     class func instantiate(info: StockAnalysisInfo? = nil) -> ComparisonVC {
 
         let viewController = ComparisonVC()
@@ -78,6 +87,10 @@ class ComparisonVC: UIViewController {
         view.backgroundColor = .systemBackground
         setupLayout()
         pageControl.numberOfPages = banners.count
+
+        // 把 comparisons 解析成日期餵給選擇器；元件內部自行分組、排序、產生月份選單與日期列。
+        monthDatePicker.setDates(comparisonDates())
+        monthDatePicker.isHidden = monthDatePicker.isEmpty
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -94,6 +107,7 @@ class ComparisonVC: UIViewController {
     private func setupLayout() {
         view.addSubview(pagerView)
         view.addSubview(pageControl)
+        view.addSubview(monthDatePicker)
 
         pagerView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(16)
@@ -107,6 +121,12 @@ class ComparisonVC: UIViewController {
             make.leading.trailing.equalToSuperview().inset(16)
             make.height.equalTo(20)
         }
+
+        // 月份 + 日期選擇器：高度由元件內部約束自我撐起，這裡只釘上緣與左右。
+        monthDatePicker.snp.makeConstraints { make in
+            make.top.equalTo(pageControl.snp.bottom).offset(16)
+            make.leading.trailing.equalToSuperview().inset(16)
+        }
     }
 
     /// 從注入資料建立 banner 清單；缺漏時退回預設四位，確保輪播不會空白。
@@ -118,6 +138,32 @@ class ComparisonVC: UIViewController {
             return AnalystBanner(analystKey: analyst.key, imageName: imageName)
         }
         return fromData.isEmpty ? AnalystBanner.defaults : fromData
+    }
+
+    // MARK: - 月份 / 日期
+
+    /// 解析 comparisons 的 date 字串用的格式器（固定 yyyy-MM-dd、POSIX locale，確保解析穩定）。
+    private static let isoDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.calendar = Calendar(identifier: .gregorian)
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }()
+
+    /// 把注入資料的 comparisons 取出可解析的日期清單，餵給選擇器。
+    /// 分組、排序、月份標題等都交給 `MonthDatePickerView`，本頁只負責把業務資料轉成 `[Date]`。
+    private func comparisonDates() -> [Date] {
+        (info?.comparisons ?? []).compactMap { comparison in
+            guard let dateString = comparison.date else { return nil }
+            return Self.isoDateFormatter.date(from: dateString)
+        }
+    }
+
+    /// 選到某個日期。目前先保留選取行為（之後可接上連動下方內容）。
+    private func didSelectDate(_ date: Date) {
+        // TODO: 之後接上「依選取日期顯示對照內容」的下方畫面。
+        print("selected date: \(Self.isoDateFormatter.string(from: date))")
     }
 }
 
@@ -137,6 +183,11 @@ extension ComparisonVC: FSPagerViewDataSource {
         cell.imageView?.contentMode = .scaleAspectFill
         cell.imageView?.clipsToBounds = true
         cell.imageView?.layer.cornerRadius = 12
+
+        // FSPagerViewCell 預設會在 contentView.layer 畫一層黑色陰影（shadowOpacity 0.75）。
+        // 該陰影依 cell 的「方形 bounds」繪製，不會跟著上面 imageView 的圓角縮，
+        // 因此會從圓角外露出，形成四個角落的陰影。這裡關掉陰影即可消除。
+        cell.contentView.layer.shadowOpacity = 0
         // 注意：刻意不存取 cell.textLabel。
         // 它的 getter 第一次被讀取就會建立一塊半透明黑底（用來襯托文字）並蓋在圖片下半部，
         // 我們的 banner 不需要文字，碰它反而會冒出那塊黑色遮罩，所以完全不要動它。

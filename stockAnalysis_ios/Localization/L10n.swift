@@ -16,6 +16,11 @@ import Foundation
 ///   而非 `static let`（只會在第一次計算後固定），這樣語系切換後重新讀取就會拿到新語言。
 enum L10n {
 
+    /// 跨頁面共用的通用字串。
+    enum Common {
+        static var cancel: String { "common.cancel".localized }
+    }
+
     /// 底部 TabBar 的標題。
     enum Tab {
         static var comparison: String { "tab.comparison".localized }

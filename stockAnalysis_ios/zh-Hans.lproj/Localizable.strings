@@ -5,6 +5,9 @@
   与 en.lproj/Localizable.strings 的 key 一一对应；只翻译等号右侧的值。
 */
 
+// MARK: - Common
+"common.cancel" = "取消";
+
 // MARK: - Tab Bar
 "tab.comparison" = "对照";
 "tab.analyst" = "分析师";
