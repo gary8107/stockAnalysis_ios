@@ -74,6 +74,12 @@ class ComparisonVC: UIViewController {
         return picker
     }()
 
+    /// 選擇器下方的內容區：顯示選定日期該筆 comparison 的 blocks（可重用元件，見 Components/ContentBlocks）。
+    private let contentBlocksView = ContentBlocksView()
+
+    /// 以日期字串（yyyy-MM-dd）為 key 的 comparison 查表，方便選到日期後快速取回對應資料。
+    private lazy var comparisonsByDate: [String: AnalystComparison] = makeComparisonsByDate()
+
     class func instantiate(info: StockAnalysisInfo? = nil) -> ComparisonVC {
 
         let viewController = ComparisonVC()
@@ -108,6 +114,7 @@ class ComparisonVC: UIViewController {
         view.addSubview(pagerView)
         view.addSubview(pageControl)
         view.addSubview(monthDatePicker)
+        view.addSubview(contentBlocksView)
 
         pagerView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(16)
@@ -126,6 +133,13 @@ class ComparisonVC: UIViewController {
         monthDatePicker.snp.makeConstraints { make in
             make.top.equalTo(pageControl.snp.bottom).offset(16)
             make.leading.trailing.equalToSuperview().inset(16)
+        }
+
+        // 內容區：填滿選擇器以下到頁面底部，內部自行垂直捲動（Banner 與選擇器固定在上方）。
+        contentBlocksView.snp.makeConstraints { make in
+            make.top.equalTo(monthDatePicker.snp.bottom).offset(8)
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
     }
 
@@ -160,10 +174,38 @@ class ComparisonVC: UIViewController {
         }
     }
 
-    /// 選到某個日期。目前先保留選取行為（之後可接上連動下方內容）。
+    /// 選到某個日期：取回該日 comparison，轉成中性的 ContentBlock 後交給內容區渲染。
+    /// 初次載入、換月、使用者點日期三種情況都會走到這裡（見 DatePillTabBar 對預設選取也通知）。
     private func didSelectDate(_ date: Date) {
-        // TODO: 之後接上「依選取日期顯示對照內容」的下方畫面。
-        print("selected date: \(Self.isoDateFormatter.string(from: date))")
+        let dateString = Self.isoDateFormatter.string(from: date)
+        let blocks = comparisonsByDate[dateString].map(contentBlocks(from:)) ?? []
+        contentBlocksView.setBlocks(blocks, emptyText: L10n.Comparison.empty)
+    }
+
+    /// 建立「日期字串 → comparison」查表。同一天若有多筆，保留第一筆即可（資料目前每天唯一）。
+    private func makeComparisonsByDate() -> [String: AnalystComparison] {
+        var result: [String: AnalystComparison] = [:]
+        for comparison in info?.comparisons ?? [] {
+            guard let dateString = comparison.date, result[dateString] == nil else { continue }
+            result[dateString] = comparison
+        }
+        return result
+    }
+
+    /// 把 web service 的 `[Block]` 對應成 UI 中性的 `[ContentBlock]`。
+    /// 這層 mapping 刻意留在 VC，讓 ContentBlocks 元件完全不依賴後端 model。
+    private func contentBlocks(from comparison: AnalystComparison) -> [ContentBlock] {
+        (comparison.blocks ?? []).compactMap { block -> ContentBlock? in
+            switch block.type {
+            case .markdown:
+                guard let content = block.content, !content.isEmpty else { return nil }
+                return .markdown(content)
+            case .table:
+                return .table(headers: block.headers ?? [], rows: block.rows ?? [])
+            case .none:
+                return nil
+            }
+        }
     }
 }
 

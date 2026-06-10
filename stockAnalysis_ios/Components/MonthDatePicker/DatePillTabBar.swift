@@ -21,7 +21,9 @@ final class DatePillTabBar: UIView {
     var onSelectDate: ((Date) -> Void)?
 
     /// 要顯示的日期清單；順序由外部決定（本專案是新到舊）。
-    /// 設值會重載畫面，並預設選取第一個日期（若有）。
+    /// 設值會重載畫面，並預設選取第一個日期（若有），同時透過 `onSelectDate` 通知外部。
+    /// 之所以連「預設選取」也通知：程式呼叫 `selectItem` 不會觸發 didSelectItemAt，
+    /// 但外部（如載入對應日期的內容）需要在初次載入與換月時都拿到目前選中的日期。
     var dates: [Date] = [] {
         didSet {
             selectedDate = dates.first
@@ -30,10 +32,11 @@ final class DatePillTabBar: UIView {
             // 注意：scrollPosition 用空集合（不捲動）。第一顆本來就在最左（offset 0），
             // 若在此時要求 .left 捲動，因 collectionView 尚未完成 layout（bounds 為 0），
             // 位移會算錯而把第一顆捲出畫面。先確保回到最前面再選取。
-            if !dates.isEmpty {
+            if let firstDate = dates.first {
                 collectionView.setContentOffset(.zero, animated: false)
                 let firstIndexPath = IndexPath(item: 0, section: 0)
                 collectionView.selectItem(at: firstIndexPath, animated: false, scrollPosition: [])
+                onSelectDate?(firstDate)
             }
         }
     }

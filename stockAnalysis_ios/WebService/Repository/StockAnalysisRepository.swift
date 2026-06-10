@@ -16,6 +16,9 @@ import RxSwift
 // 縮短巢狀型別名稱，提升可讀性。
 typealias StockAnalysisInfo = StockAnalysisService.GetStockAnalysis.StockAnalysisInfo
 typealias StockAnalysisQuery = StockAnalysisService.GetStockAnalysis.Query
+typealias AnalystComparison = StockAnalysisService.GetStockAnalysis.Comparison
+typealias AnalysisBlock = StockAnalysisService.GetStockAnalysis.Block
+typealias AnalysisBlockType = StockAnalysisService.GetStockAnalysis.BlockType
 
 /// 提供個股分析資料的抽象介面。
 protocol StockAnalysisRepositoryType {
