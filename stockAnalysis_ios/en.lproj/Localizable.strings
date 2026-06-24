@@ -28,5 +28,30 @@
 
 // MARK: - Setting Page
 "setting.title" = "Settings";
+
+"setting.section.appearance" = "Appearance";
+"setting.appearance.system" = "System";
+"setting.appearance.light" = "Light";
+"setting.appearance.dark" = "Dark";
+
+"setting.section.textSize" = "Text Size";
+"setting.section.textSize.footer" = "Text size only affects content (notes and tables).";
+"setting.textSize.small" = "Small";
+"setting.textSize.standard" = "Standard";
+"setting.textSize.large" = "Large";
+"setting.textSize.extraLarge" = "Extra Large";
+
 "setting.section.language" = "Language";
 "setting.section.language.footer" = "Changes apply immediately without restarting the app.";
+
+"setting.section.data" = "Data Info";
+"setting.data.lastUpdate" = "Last Updated";
+"setting.data.analysts" = "Analysts";
+"setting.data.notes" = "Notes";
+"setting.data.comparisons" = "Comparisons";
+"setting.data.noValue" = "—";
+
+"setting.section.about" = "About";
+"setting.about.version" = "Version";
+"setting.about.source" = "Source Code";
+"setting.about.intro" = "This app gathers market notes and comparisons from multiple analysts, helping you quickly compare their views.";

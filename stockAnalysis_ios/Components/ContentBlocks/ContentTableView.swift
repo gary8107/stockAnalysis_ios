@@ -25,8 +25,10 @@ final class ContentTableView: UIView {
     /// 儲存格內距。
     private let cellInset = UIEdgeInsets(top: 8, left: 10, bottom: 8, right: 10)
 
-    private let cellFont = UIFont.systemFont(ofSize: 13)
-    private let headerFont = UIFont.systemFont(ofSize: 13, weight: .bold)
+    // 字級依使用者選擇的字體大小倍率縮放（見 TextSizeManager）。
+    // 用 instance let 在「建立此表格時」讀取倍率即可——字級切換後會重建畫面、產生新的表格實例。
+    private let cellFont = UIFont.systemFont(ofSize: 13 * TextSizeManager.shared.scale)
+    private let headerFont = UIFont.systemFont(ofSize: 13 * TextSizeManager.shared.scale, weight: .bold)
 
     /// 水平捲動容器。
     private let scrollView: UIScrollView = {

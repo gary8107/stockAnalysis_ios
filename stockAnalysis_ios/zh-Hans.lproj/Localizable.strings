@@ -27,5 +27,30 @@
 
 // MARK: - Setting Page
 "setting.title" = "设置";
+
+"setting.section.appearance" = "外观模式";
+"setting.appearance.system" = "跟随系统";
+"setting.appearance.light" = "浅色";
+"setting.appearance.dark" = "深色";
+
+"setting.section.textSize" = "字体大小";
+"setting.section.textSize.footer" = "字体大小仅影响内容文字（笔记与表格）。";
+"setting.textSize.small" = "小";
+"setting.textSize.standard" = "标准";
+"setting.textSize.large" = "大";
+"setting.textSize.extraLarge" = "特大";
+
 "setting.section.language" = "语言";
 "setting.section.language.footer" = "切换后立即生效，无需重新启动 App。";
+
+"setting.section.data" = "数据信息";
+"setting.data.lastUpdate" = "最后更新时间";
+"setting.data.analysts" = "分析师数量";
+"setting.data.notes" = "笔记数量";
+"setting.data.comparisons" = "对照数据数量";
+"setting.data.noValue" = "—";
+
+"setting.section.about" = "关于";
+"setting.about.version" = "版本";
+"setting.about.source" = "源代码";
+"setting.about.intro" = "本 App 汇整多位分析师的盘势笔记与数据对照，协助你快速比较不同分析师的观点。";

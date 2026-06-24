@@ -45,6 +45,8 @@ enum AppRootBuilder {
         guard let targetWindow = window ?? UIApplication.shared.activeKeyWindow else { return }
 
         targetWindow.rootViewController = viewController
+        // 重建 root 後重新套用外觀模式，確保新畫面沿用使用者選擇（override 是 window 屬性，通常會留著，這裡保險再套一次）。
+        AppearanceManager.shared.apply(to: targetWindow)
         UIView.transition(with: targetWindow,
                           duration: 0.3,
                           options: .transitionCrossDissolve,

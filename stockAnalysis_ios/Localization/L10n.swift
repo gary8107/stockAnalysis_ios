@@ -32,8 +32,40 @@ enum L10n {
     /// 設定頁的文字。
     enum Setting {
         static var title: String { "setting.title".localized }
+
+        // 外觀模式
+        static var sectionAppearance: String { "setting.section.appearance".localized }
+        static var appearanceSystem: String { "setting.appearance.system".localized }
+        static var appearanceLight: String { "setting.appearance.light".localized }
+        static var appearanceDark: String { "setting.appearance.dark".localized }
+
+        // 字體大小
+        static var sectionTextSize: String { "setting.section.textSize".localized }
+        static var sectionTextSizeFooter: String { "setting.section.textSize.footer".localized }
+        static var textSizeSmall: String { "setting.textSize.small".localized }
+        static var textSizeStandard: String { "setting.textSize.standard".localized }
+        static var textSizeLarge: String { "setting.textSize.large".localized }
+        static var textSizeExtraLarge: String { "setting.textSize.extraLarge".localized }
+
+        // 語言
         static var sectionLanguage: String { "setting.section.language".localized }
         static var sectionLanguageFooter: String { "setting.section.language.footer".localized }
+
+        // 資料訊息
+        static var sectionData: String { "setting.section.data".localized }
+        static var dataLastUpdate: String { "setting.data.lastUpdate".localized }
+        static var dataAnalysts: String { "setting.data.analysts".localized }
+        static var dataNotes: String { "setting.data.notes".localized }
+        static var dataComparisons: String { "setting.data.comparisons".localized }
+        /// 無對應資料時顯示的占位字串。
+        static var dataNoValue: String { "setting.data.noValue".localized }
+
+        // 關於
+        static var sectionAbout: String { "setting.section.about".localized }
+        static var aboutVersion: String { "setting.about.version".localized }
+        static var aboutSource: String { "setting.about.source".localized }
+        /// 關於區塊的 footer：App 介紹文字。
+        static var aboutIntro: String { "setting.about.intro".localized }
     }
 
     /// 比較頁的文字。

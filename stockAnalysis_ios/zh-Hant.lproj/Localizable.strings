@@ -27,5 +27,30 @@
 
 // MARK: - Setting Page
 "setting.title" = "設定";
+
+"setting.section.appearance" = "外觀模式";
+"setting.appearance.system" = "跟隨系統";
+"setting.appearance.light" = "淺色";
+"setting.appearance.dark" = "深色";
+
+"setting.section.textSize" = "字體大小";
+"setting.section.textSize.footer" = "字體大小僅影響內容文字（筆記與表格）。";
+"setting.textSize.small" = "小";
+"setting.textSize.standard" = "標準";
+"setting.textSize.large" = "大";
+"setting.textSize.extraLarge" = "特大";
+
 "setting.section.language" = "語言";
 "setting.section.language.footer" = "切換後立即生效，不需重新啟動 App。";
+
+"setting.section.data" = "資料訊息";
+"setting.data.lastUpdate" = "最後更新時間";
+"setting.data.analysts" = "分析師數量";
+"setting.data.notes" = "筆記數量";
+"setting.data.comparisons" = "對照資料數量";
+"setting.data.noValue" = "—";
+
+"setting.section.about" = "關於";
+"setting.about.version" = "版本";
+"setting.about.source" = "原始碼";
+"setting.about.intro" = "本 App 彙整多位分析師的盤勢筆記與資料對照，協助你快速比較不同分析師的觀點。";

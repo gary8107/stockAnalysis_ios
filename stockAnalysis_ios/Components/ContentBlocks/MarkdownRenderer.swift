@@ -22,11 +22,22 @@ import UIKit
 /// - 連結：`[顯示文字](網址)` → 只保留「顯示文字」（本專案連結指向內部 .md，不是真網址）。
 enum MarkdownRenderer {
 
-    /// 各標題層級對應的字級（index 0 不用，1 = `#` 最大、6 最小）。
-    private static let headingFontSizes: [CGFloat] = [0, 24, 21, 18, 16, 15, 14]
+    /// 各標題層級對應的基準字級（index 0 不用，1 = `#` 最大、6 最小）。
+    private static let baseHeadingFontSizes: [CGFloat] = [0, 24, 21, 18, 16, 15, 14]
 
     /// 內文與清單的基準字級。
-    private static let bodyFontSize: CGFloat = 15
+    private static let baseBodyFontSize: CGFloat = 15
+
+    /// 套用使用者字體大小倍率後的標題字級。
+    /// 倍率在「每次渲染當下」讀取，因此字級切換後重建畫面即可生效（見 TextSizeManager）。
+    private static func headingFontSize(level: Int) -> CGFloat {
+        baseHeadingFontSizes[level] * TextSizeManager.shared.scale
+    }
+
+    /// 套用使用者字體大小倍率後的內文字級。
+    private static var bodyFontSize: CGFloat {
+        baseBodyFontSize * TextSizeManager.shared.scale
+    }
 
     /// 把一整段 markdown 文字轉成可直接丟給 UILabel 的 NSAttributedString。
     /// - Parameters:
@@ -61,7 +72,7 @@ enum MarkdownRenderer {
     private static func attributedLine(for rawLine: String, textColor: UIColor) -> NSAttributedString {
         // 標題：行首連續井號 + 空白。
         if let heading = parseHeading(rawLine) {
-            let font = UIFont.systemFont(ofSize: headingFontSizes[heading.level], weight: .bold)
+            let font = UIFont.systemFont(ofSize: headingFontSize(level: heading.level), weight: .bold)
             return inlineAttributedString(from: heading.text, font: font, textColor: textColor)
         }
 
