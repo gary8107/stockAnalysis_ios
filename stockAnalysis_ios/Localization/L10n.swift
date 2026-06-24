@@ -19,6 +19,7 @@ enum L10n {
     /// 跨頁面共用的通用字串。
     enum Common {
         static var cancel: String { "common.cancel".localized }
+        static var loading: String { "common.loading".localized }
     }
 
     /// 底部 TabBar 的標題。
@@ -48,6 +49,8 @@ enum L10n {
     enum Analyst {
         static var title: String { "analyst.title".localized }
         static var empty: String { "analyst.empty".localized }
+        /// 選定分析師於選定日期沒有可顯示內容時的提示。
+        static var contentEmpty: String { "analyst.content.empty".localized }
         /// 帶數量的摘要，例如「4 位分析師」。
         /// - Parameter count: 分析師人數，對應 `.strings` 內的 `%d`。
         static func summary(count: Int) -> String { "analyst.summary".localized(with: count) }

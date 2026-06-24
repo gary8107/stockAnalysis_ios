@@ -79,6 +79,17 @@ enum StockAnalysisService {
                 default: return ""
                 }
             }
+
+            /// 分析師個人頁上方使用的截圖素材名稱（對應 Assets.xcassets/screenshot）。
+            var screenshot: String {
+                switch self.key {
+                case "li-shufang": return "lsf_screenshot"
+                case "ruan-huici": return "rhc_screenshot"
+                case "chen-kunjen": return "ckj_screenshot"
+                case "cai-zhenghua": return "tzh_screenshot"
+                default: return ""
+                }
+            }
         }
 
         struct Comparison: Decodable {

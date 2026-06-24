@@ -77,6 +77,14 @@ class ComparisonVC: UIViewController {
     /// 選擇器下方的內容區：顯示選定日期該筆 comparison 的 blocks（可重用元件，見 Components/ContentBlocks）。
     private let contentBlocksView = ContentBlocksView()
 
+    /// 切換日期時的讀取遮罩（可重用元件，見 Components/Loading）。
+    private let loadingOverlay = LoadingOverlayView()
+
+    /// 是否已完成初次載入。
+    /// 初次載入是在 viewDidLoad 內由 setDates 同步觸發，維持原本同步渲染；
+    /// 之後使用者點日期切換時才走「先顯示遮罩、async 再重建構」，避免主執行緒卡住像沒反應。
+    private var isReady = false
+
     /// 以日期字串（yyyy-MM-dd）為 key 的 comparison 查表，方便選到日期後快速取回對應資料。
     private lazy var comparisonsByDate: [String: AnalystComparison] = makeComparisonsByDate()
 
@@ -97,6 +105,9 @@ class ComparisonVC: UIViewController {
         // 把 comparisons 解析成日期餵給選擇器；元件內部自行分組、排序、產生月份選單與日期列。
         monthDatePicker.setDates(comparisonDates())
         monthDatePicker.isHidden = monthDatePicker.isEmpty
+
+        // setDates 上方已同步觸發初次 didSelectDate（同步渲染）；此後的日期切換改走遮罩 + async。
+        isReady = true
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -176,10 +187,25 @@ class ComparisonVC: UIViewController {
 
     /// 選到某個日期：取回該日 comparison，轉成中性的 ContentBlock 後交給內容區渲染。
     /// 初次載入、換月、使用者點日期三種情況都會走到這裡（見 DatePillTabBar 對預設選取也通知）。
+    /// - 初次載入（isReady == false，於 viewDidLoad 內）：同步渲染，維持原本行為。
+    /// - 之後的切換：先顯示讀取遮罩，下一拍再重建構，讓點擊立即有回饋。
     private func didSelectDate(_ date: Date) {
+        guard isReady else {
+            renderContent(for: date)
+            return
+        }
+        loadingOverlay.show(in: view, text: L10n.Common.loading)
+        DispatchQueue.main.async { [weak self] in
+            self?.renderContent(for: date)
+        }
+    }
+
+    /// 真正把某日期的內容建出來並交給內容區渲染。
+    private func renderContent(for date: Date) {
         let dateString = Self.isoDateFormatter.string(from: date)
         let blocks = comparisonsByDate[dateString].map(contentBlocks(from:)) ?? []
         contentBlocksView.setBlocks(blocks, emptyText: L10n.Comparison.empty)
+        loadingOverlay.hide()
     }
 
     /// 建立「日期字串 → comparison」查表。同一天若有多筆，保留第一筆即可（資料目前每天唯一）。

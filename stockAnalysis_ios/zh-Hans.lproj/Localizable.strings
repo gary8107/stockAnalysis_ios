@@ -7,6 +7,7 @@
 
 // MARK: - Common
 "common.cancel" = "取消";
+"common.loading" = "读取中…";
 
 // MARK: - Tab Bar
 "tab.comparison" = "对照";
@@ -22,6 +23,7 @@
 "analyst.title" = "分析师";
 "analyst.empty" = "尚无分析师数据。";
 "analyst.summary" = "共 %d 位分析师";
+"analyst.content.empty" = "这天没有这位分析师的内容。";
 
 // MARK: - Setting Page
 "setting.title" = "设置";

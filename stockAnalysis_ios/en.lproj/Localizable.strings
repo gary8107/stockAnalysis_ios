@@ -8,6 +8,7 @@
 
 // MARK: - Common
 "common.cancel" = "Cancel";
+"common.loading" = "Loading…";
 
 // MARK: - Tab Bar
 "tab.comparison" = "Comparison";
@@ -23,6 +24,7 @@
 "analyst.title" = "Analyst";
 "analyst.empty" = "No analyst data yet.";
 "analyst.summary" = "%d analysts";
+"analyst.content.empty" = "No content from this analyst on this day.";
 
 // MARK: - Setting Page
 "setting.title" = "Settings";

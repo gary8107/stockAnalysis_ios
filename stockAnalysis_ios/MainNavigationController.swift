@@ -116,7 +116,7 @@ enum TabBarType {
     func makeViewController(info: StockAnalysisInfo?) -> UIViewController {
         switch self {
         case .comparison: return ComparisonVC.instantiate(info: info)
-        case .analyst: return AnalystVC.instantiate(info: info)
+        case .analyst: return AnalystListVC.instantiate(info: info)
         case .setting: return SettingVC.instantiate(info: info)
         }
     }

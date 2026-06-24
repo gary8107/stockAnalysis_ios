@@ -17,6 +17,8 @@ import RxSwift
 typealias StockAnalysisInfo = StockAnalysisService.GetStockAnalysis.StockAnalysisInfo
 typealias StockAnalysisQuery = StockAnalysisService.GetStockAnalysis.Query
 typealias AnalystComparison = StockAnalysisService.GetStockAnalysis.Comparison
+typealias Analyst = StockAnalysisService.GetStockAnalysis.Analyst
+typealias AnalystNote = StockAnalysisService.GetStockAnalysis.Note
 typealias AnalysisBlock = StockAnalysisService.GetStockAnalysis.Block
 typealias AnalysisBlockType = StockAnalysisService.GetStockAnalysis.BlockType
 
